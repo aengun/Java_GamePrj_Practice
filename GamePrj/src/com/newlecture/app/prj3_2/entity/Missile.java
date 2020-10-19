@@ -1,9 +1,7 @@
-package com.newlecture.app.prj3_2.canvas;
+package com.newlecture.app.prj3_2.entity;
 
 import java.awt.Graphics;
 import java.awt.Image;
-
-import com.newlecture.app.prj3_2.entity.Item;
 
 public class Missile extends Item {
 

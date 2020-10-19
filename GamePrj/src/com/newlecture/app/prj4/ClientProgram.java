@@ -15,10 +15,10 @@ public class ClientProgram {
 		Socket sock = new Socket("192.168.0.77", 10000);
 		OutputStream nos = sock.getOutputStream(); // 출력버퍼
 		InputStream nis = sock.getInputStream(); // 입력버퍼
-		Scanner scan = new Scanner(System.in);
-		Scanner scan2 = new Scanner(nis);
 
-		PrintStream out = new PrintStream(nos, true); // true : 바로 flush
+		PrintStream nout = new PrintStream(nos, true); // true : 바로 flush
+		Scanner nscan = new Scanner(nis);
+		Scanner scan = new Scanner(System.in);
 
 //		out.println("I'll be back");
 
@@ -28,15 +28,16 @@ public class ClientProgram {
 
 			System.out.print("메세지를 입력하세요 : ");
 			msg = scan.nextLine();
-			out.println(msg);
+			nout.println(msg);
 
-			String echo = scan2.nextLine();
+			String echo = nscan.nextLine();
 			System.out.println(echo);
 
 		} while (!msg.equals("bye"));
 
-		out.close();
 		scan.close();
+		nscan.close();
+		nout.close();
 		nis.close();
 		nos.close();
 		sock.close(); // 닫는 순서는 여는 순서대로

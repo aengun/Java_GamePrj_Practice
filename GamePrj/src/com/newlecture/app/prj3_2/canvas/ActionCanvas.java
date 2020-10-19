@@ -14,6 +14,7 @@ import com.newlecture.app.prj3_2.entity.BoyMoveListener;
 import com.newlecture.app.prj3_2.entity.Enemy;
 import com.newlecture.app.prj3_2.entity.EnemyMoveListener;
 import com.newlecture.app.prj3_2.entity.Item;
+import com.newlecture.app.prj3_2.entity.Missile;
 
 public class ActionCanvas extends Canvas {
 

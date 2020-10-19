@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 
 import com.newlecture.app.prj3_2.entity.BoyMoveListener;
 import com.newlecture.app.prj3_2.canvas.ActionCanvas;
-import com.newlecture.app.prj3_2.canvas.Missile;
 
 public class Boy extends Item {
 
