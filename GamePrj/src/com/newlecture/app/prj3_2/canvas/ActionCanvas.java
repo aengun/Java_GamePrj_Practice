@@ -28,7 +28,7 @@ public class ActionCanvas extends Canvas {
 	private Boy currentBoy;
 
 	private Background background;
-	
+
 	private Missile[] missiles;
 	int missileSize = 0;
 
@@ -37,8 +37,10 @@ public class ActionCanvas extends Canvas {
 
 	public ActionCanvas() {
 		instance = this;
-
+		missiles = new Missile[100];
+		
 		enemy = new Enemy();
+		
 
 		enemy.setMoveListener(new EnemyMoveListener() {
 			@Override
@@ -105,6 +107,8 @@ public class ActionCanvas extends Canvas {
 					break;
 				case KeyEvent.VK_SPACE:
 					Missile missile = currentBoy.fire();
+					items[itemSize++] = missile;
+					missiles[missileSize++] = missile;
 					break;
 				}
 
