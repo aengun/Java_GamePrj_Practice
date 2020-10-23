@@ -15,6 +15,7 @@ import com.newlecture.app.prj3_2.entity.Enemy;
 import com.newlecture.app.prj3_2.entity.EnemyMoveListener;
 import com.newlecture.app.prj3_2.entity.Item;
 import com.newlecture.app.prj3_2.entity.Missile;
+import com.newlecture.app.prj3_2.entity.MissileListener;
 
 public class ActionCanvas extends Canvas {
 
@@ -38,9 +39,8 @@ public class ActionCanvas extends Canvas {
 	public ActionCanvas() {
 		instance = this;
 		missiles = new Missile[100];
-		
+
 		enemy = new Enemy();
-		
 
 		enemy.setMoveListener(new EnemyMoveListener() {
 			@Override
@@ -107,6 +107,33 @@ public class ActionCanvas extends Canvas {
 					break;
 				case KeyEvent.VK_SPACE:
 					Missile missile = currentBoy.fire();
+					missile.setListener(new MissileListener() {
+
+						@Override
+						public void onOut(Missile missile) {
+							System.out.println("미사일 나감");
+							int i;
+							for (i = 0; i < itemSize; i++) { // 지우려는 미사일이 아이템 배열의 몇 번째 인덱스인지 찾기
+								if (items[i] == missile)
+									break;
+							}
+							System.out.printf("%d %s 아이템\n", i, items[i] == missile);
+							for (int j = 0; j < itemSize - (i + 1); j++) { // 해당 인덱스의 아이템을 제거하고 뒤에 있는 아이템들을 한 칸씩 땡긴다.
+								items[i + j] = items[i + j + 1];
+							}
+							itemSize--;
+
+							for (i = 0; i < missileSize; i++) {
+								if (missiles[i] == missile)
+									break;
+							}
+							System.out.printf("%d %s\n 미사일", i, missiles[i] == missile);
+							for (int j = 0; j < missileSize - (i + 1); j++) {
+								missiles[i + j] = missiles[i + j + 1];
+							}
+							missileSize--;
+						}
+					});
 					items[itemSize++] = missile;
 					missiles[missileSize++] = missile;
 					break;

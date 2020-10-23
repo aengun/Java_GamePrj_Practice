@@ -193,8 +193,6 @@ public class Boy extends Item {
 		double x = getX();
 		double y = getY();
 
-		System.out.println(key);
-
 		switch (key) {
 		case UP:
 			N = 1;

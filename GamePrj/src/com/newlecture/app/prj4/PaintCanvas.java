@@ -34,8 +34,8 @@ public class PaintCanvas extends Canvas {
 			g.setColor(Color.white);
 			g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 		} else {
-			g.setColor(Color.black);
-			g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
+			g.setColor(Color.pink);
+			g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
 		}
 

@@ -38,7 +38,7 @@ public class Missile extends Item {
 	public void update() {
 //		if(내가 밖에 있다면..)
 //			사라진다..
-		if (listener != null)
+		if (listener != null && ActionCanvas.instance.getHeight()-100 < getY())
 			listener.onOut(this);
 		
 		setY(getY() + 5);
@@ -55,11 +55,11 @@ public class Missile extends Item {
 		int y2 = y1 + h;
 		Image img = getImg();
 
-//		g.drawImage(img, x1, y1, x2, y2, 0, 0, w, h, ActionCanvas.instance);
+		g.drawImage(img, x1, y1, x2, y2, 0, 0, img.getWidth(null)/3, img.getHeight(null), ActionCanvas.instance);
 //		g.drawArc(x, y, width, height, startAngle, arcAngle); // 각도만큼 원 그리기
 //		g.drawOval(x1, y1, w, h); // 사각형 안에 원 그리기
-		g.setColor(Color.magenta);
-		g.fillOval(x1, y1, w, h);
+//		g.setColor(Color.magenta);
+//		g.fillOval(x1, y1, w, h);
 
 	}
 

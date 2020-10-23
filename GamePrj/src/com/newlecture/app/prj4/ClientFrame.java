@@ -5,11 +5,17 @@ import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -34,7 +40,11 @@ public class ClientFrame extends JFrame {
 	// paint부분, text부분 모두 소켓이 필요>두개만들지 말고 프레임에 하나만 두자
 	private Socket socket;
 
+	private Scanner nscan;
+	private PrintStream nout;
+
 	public ClientFrame() {
+
 		setSize(800, 700);
 
 		// 메뉴바========================================================================
@@ -68,6 +78,24 @@ public class ClientFrame extends JFrame {
 					socket = new Socket("192.168.0.72", 10000);
 
 					if (socket.isConnected()) {
+
+						InputStream nis = socket.getInputStream();
+						OutputStream nos = socket.getOutputStream();
+						nscan = new Scanner(nis);
+						nout = new PrintStream(nos);
+
+						new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								while (nscan.hasNextLine()) {
+									String line = nscan.nextLine();
+									panel.setOutputText(line);
+								}
+							}
+
+						}).start();
+
 						canvas.setActive();
 						panel.setOutputText("서버에 연결되었습니다.");
 					}

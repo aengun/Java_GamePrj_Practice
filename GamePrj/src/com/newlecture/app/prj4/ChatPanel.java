@@ -5,6 +5,10 @@ import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.Panel;
 import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class ChatPanel extends Panel {
 
@@ -30,12 +34,22 @@ public class ChatPanel extends Panel {
 		inputPanel.add(inputTextBox);
 
 		btnSend = new Button("send");
+		btnSend.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String chtMsg = inputTextBox.getText();
+				?.onSend(chatMsg);
+			}
+		});
 		inputPanel.add(btnSend, BorderLayout.LINE_END);
 
 	}
 
-	public void setOutputText(String string) {
-		System.out.println(string);
+	public void setOutputText(String message) {
+//		textBox.setText(message); // 문자열을 바꿔버림
+		textBox.append(message + "\n"); // 문자열을 추가함
 	}
 
 }

@@ -53,7 +53,7 @@ public class ServerProgram {
 							// nout.println(msg);
 							for (int i = 0; i < outSize; i++)
 								outs[i].println(msg);
-							System.out.println(sock.getRemoteSocketAddress()+" : "+msg);
+							System.out.println(sock.getRemoteSocketAddress() + " : " + msg);
 
 						} while (!msg.equals("bye"));
 
