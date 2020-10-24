@@ -2,7 +2,6 @@ package com.newlecture.app.prj3_2.entity;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -16,7 +15,7 @@ public class Enemy extends Item {
 //	private double x;
 //	private double y;
 //	
-//	// ¾Ö´Ï¸ÞÀÌ¼ÇÀ» À§ÇÑ º¯¼ö
+//	// ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //	private double vx;
 //	private double vy;
 //	private double dx;
@@ -73,14 +72,14 @@ public class Enemy extends Item {
 //		this.dx = x;
 //		this.dy = y;
 //		
-//		// µ¿ÀÏÇÑ ¼Óµµ·Î ÀÌµ¿ÇÏ´Â ´ÜÀ§º¤ÅÍ
+//		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		double w = this.dx - this.x;
 //		double h = this.dy - this.y;
 //		double d = Math.sqrt(w*w + h*h);
 //		this.vx = w/d*speed;
 //		this.vy = h/d*speed;
 //		
-//		// µ¿ÀÏÇÑ ½Ã°£³»¿¡ ÀÌµ¿ÇÏ´Â ´ÜÀ§º¤ÅÍ
+//		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		//this.vx = (this.dx - this.x) / 15;
 //		//this.vy = (this.dy - this.y) / 15;
 //		
@@ -110,18 +109,18 @@ public class Enemy extends Item {
 			
 		    this.move(dx,dy);
 		    
-		    // move ÇÒ ¶§ ¹¹¶óµµ ¿©±â¿¡¼­ ÄÚµå¸¦ ³Ö°í ½ÍÁö ¾ÊÀ»±î?
+		    // move ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
 		    if(moveListener != null)
-		    	moveListener.onMove(); // ÀÌ°Å ´©°¡ Á¤ÀÇÇÑ°Å¾ß?
+		    	moveListener.onMove(); // ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°Å¾ï¿½?
 		    
 		    timeoutForMoving = rand.nextInt(60)+60;//0~59+60 // 60~119
 		    
 		}
 		
-		// ¸ñÀûÁö¿¡ ¹Ú½º¸¦ ¸¸µé¾î ³õ°í ºñ±³
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		if((dx - 1 <= x && x <= dx + 1) && 
 				(dy - 1 <= y && y <= dy + 1)) {			
-		// ÀüÅõ±âÀÇ À§Ä¡¸¦ ¹Ú½º·Î Ç¥ÇöÇØ¼­ ºñ±³
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½
 //		if((this.x - 1 <= this.dx && this.dx <= this.x + 1) && 
 //				(this.y - 1 <= this.dy && this.dy <= this.y + 1)) {
 			vx = 0;
