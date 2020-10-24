@@ -10,7 +10,7 @@ public abstract class Item {
 	private double x;
 	private double y;
 	
-	// ¾Ö´Ï¸ÞÀÌ¼ÇÀ» À§ÇÑ º¯¼ö
+	// ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private double vx;
 	private double vy;
 	private double dx;
@@ -154,14 +154,14 @@ public abstract class Item {
 		this.dx = x;
 		this.dy = y;
 		
-		// µ¿ÀÏÇÑ ¼Óµµ·Î ÀÌµ¿ÇÏ´Â ´ÜÀ§º¤ÅÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		double w = this.dx - this.x;
 		double h = this.dy - this.y;
 		double d = Math.sqrt(w*w + h*h);	
 		this.vx = w/d*speed;
 		this.vy = h/d*speed;
 		
-		// µ¿ÀÏÇÑ ½Ã°£³»¿¡ ÀÌµ¿ÇÏ´Â ´ÜÀ§º¤ÅÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		//this.vx = (this.dx - this.x) / 15;
 		//this.vy = (this.dy - this.y) / 15;
 		
