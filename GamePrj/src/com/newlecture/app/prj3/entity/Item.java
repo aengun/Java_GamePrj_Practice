@@ -50,13 +50,13 @@ public abstract class Item {
 
 	protected abstract Image getImage();
 
-//	public void update() { // ±¸ÇöÀº ´Þ¶ó¿ä
+//	public void update() { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¶ï¿½ï¿½
 //
 //	}
 
 	public abstract void update();
 
-	public abstract void paint(Graphics g); // ºí·Ï ±¸Çö ¾øÀÌ ´ÝÀ¸¸é ±¸ÇöÀ» °­Á¦ÇÔ >> Ãß»ó ¸Þ¼­µå°¡ µÈ´Ù.
+	public abstract void paint(Graphics g); // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ >> ï¿½ß»ï¿½ ï¿½Þ¼ï¿½ï¿½å°¡ ï¿½È´ï¿½.
 
 	public void move(double x, double y) {
 
@@ -69,15 +69,16 @@ public abstract class Item {
 
 		vx = w / d * speed;
 		vy = h / d * speed;
+		System.out.println(vx + " " + vy);
 
-		// µ¿ÀÏÇÑ ½Ã°£³»¿¡ ÀÌµ¿ÇÏ´Â ´ÜÀ§º¤ÅÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		// this.vx = (this.dx - this.x) / 15;
 		// this.vy = (this.dy - this.y) / 15;
 
 	}
 
 	public boolean isSelected(int x, int y) {
-		
+
 		int w = (int) this.width;
 		int h = (int) this.height;
 		int x1 = (int) this.x - w / 2;

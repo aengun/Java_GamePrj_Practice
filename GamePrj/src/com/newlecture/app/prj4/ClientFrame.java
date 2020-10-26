@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class ClientFrame extends JFrame {
 
@@ -32,6 +33,7 @@ public class ClientFrame extends JFrame {
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenuItem miExit;
+	private JMenuItem miSettings;
 
 	private JMenu mnServer;
 	private JMenuItem miConnect;
@@ -43,11 +45,14 @@ public class ClientFrame extends JFrame {
 	private Scanner nscan;
 	private PrintStream nout;
 
+	private String nicName;
+
 	public ClientFrame() {
 
 		setSize(800, 700);
 
 		// 메뉴바========================================================================
+		// Menu 메뉴
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -64,7 +69,13 @@ public class ClientFrame extends JFrame {
 			}
 		});
 
-		////////////////
+		miSettings = new JMenuItem("Settings");
+		mnFile.add(miSettings);
+		miSettings.addActionListener((e) -> { // 지속적으로 이용하니까 멤버변수로 두자
+			this.nicName = JOptionPane.showInputDialog("대화명을 입력하세요");
+		});
+
+		// Server 메뉴
 		mnServer = new JMenu("Server");
 		menuBar.add(mnServer);
 
@@ -75,7 +86,7 @@ public class ClientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					socket = new Socket("192.168.0.72", 10000);
+					socket = new Socket("192.168.0.36", 10000);
 
 					if (socket.isConnected()) {
 
@@ -121,6 +132,18 @@ public class ClientFrame extends JFrame {
 		panel = new ChatPanel();
 		panel.setPreferredSize(new Dimension(250, 0));
 		add(panel, BorderLayout.LINE_END);
+
+//		panel.setChatListener(new ChatListener() {
+//
+//			@Override
+//			public void onSend(String chatMsg) {
+//				System.out.println(chatMsg);
+//			}
+//		}); // 밑의 람다식으로 대체
+
+		panel.setChatListener((String chatMsg) -> {
+			nout.println(nicName + " : " + chatMsg);
+		});
 
 //		btnSend = new Button("Send");
 //		add(btnSend, BorderLayout.LINE_END);

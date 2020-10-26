@@ -17,6 +17,8 @@ public class ChatPanel extends Panel {
 	private Button btnSend;
 	private TextArea inputTextBox;
 
+	private ChatListener chatListener;
+
 	public ChatPanel() {
 
 		setLayout(new BorderLayout());
@@ -35,12 +37,13 @@ public class ChatPanel extends Panel {
 
 		btnSend = new Button("send");
 		btnSend.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				String chtMsg = inputTextBox.getText();
-				?.onSend(chatMsg);
+
+				String chatMsg = inputTextBox.getText();
+				if(chatListener != null)
+					chatListener.onSend(chatMsg);
 			}
 		});
 		inputPanel.add(btnSend, BorderLayout.LINE_END);
@@ -50,6 +53,10 @@ public class ChatPanel extends Panel {
 	public void setOutputText(String message) {
 //		textBox.setText(message); // 문자열을 바꿔버림
 		textBox.append(message + "\n"); // 문자열을 추가함
+	}
+
+	public void setChatListener(ChatListener chatListener) {
+		this.chatListener = chatListener;
 	}
 
 }
