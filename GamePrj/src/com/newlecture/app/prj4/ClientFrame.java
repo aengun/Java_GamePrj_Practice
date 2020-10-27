@@ -1,12 +1,9 @@
 package com.newlecture.app.prj4;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -24,93 +21,131 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class ClientFrame extends JFrame {
-
-	private PaintCanvas canvas;
-	private ChatPanel panel;
-	private Button btnSend;
-
-	// Î©îÎâ¥ ÎßåÎì§Í∏∞
+	
+	private Socket socket;
+	
+	// ∏ﬁ¥∫ ∏∏µÈ∞Ìøπø‰..
 	private JMenuBar menuBar;
+	
 	private JMenu mnFile;
 	private JMenuItem miExit;
 	private JMenuItem miSettings;
-
+	
 	private JMenu mnServer;
 	private JMenuItem miConnect;
 	private JMenuItem miClose;
+	
+	
+	private PaintCanvas canvas;
+	private ChatPanel panel;
+	//private Button btnSend;
 
-	// paintÎ∂ÄÎ∂Ñ, textÎ∂ÄÎ∂Ñ Î™®Îëê ÏÜåÏºìÏù¥ ÌïÑÏöî>ÎëêÍ∞úÎßåÎì§ÏßÄ ÎßêÍ≥† ÌîÑÎ†àÏûÑÏóê ÌïòÎÇòÎßå ÎëêÏûê
-	private Socket socket;
+	protected Scanner nscan;
 
-	private Scanner nscan;
-	private PrintStream nout;
+	protected PrintStream nout;
 
 	private String nicName;
-
+	
 	public ClientFrame() {
-
-		setSize(800, 700);
-
-		// Î©îÎâ¥Î∞î========================================================================
-		// Menu Î©îÎâ¥
+		setSize(800, 500);
+		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-
+		
 		mnFile = new JMenu("Menu");
 		menuBar.add(mnFile);
-
+		
+		mnServer = new JMenu("Server");
+		menuBar.add(mnServer);
+		
 		miExit = new JMenuItem("Exit");
-		mnFile.add(miExit);
-		miExit.addActionListener(new ActionListener() {
-
+		miExit.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-
 		miSettings = new JMenuItem("Settings");
 		mnFile.add(miSettings);
-		miSettings.addActionListener((e) -> { // ÏßÄÏÜçÏ†ÅÏúºÎ°ú Ïù¥Ïö©ÌïòÎãàÍπå Î©§Î≤ÑÎ≥ÄÏàòÎ°ú ÎëêÏûê
-			this.nicName = JOptionPane.showInputDialog("ÎåÄÌôîÎ™ÖÏùÑ ÏûÖÎ†•ÌïòÏÑ∏Ïöî");
+		miSettings.addActionListener((e)->{
+			this.nicName = JOptionPane.showInputDialog("¥Î»≠∏Ì¿ª ¿‘∑¬«œººø‰");			
 		});
-
-		// Server Î©îÎâ¥
-		mnServer = new JMenu("Server");
-		menuBar.add(mnServer);
-
+		
 		miConnect = new JMenuItem("Connect");
 		mnServer.add(miConnect);
 		miConnect.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					socket = new Socket("192.168.0.36", 10000);
-
-					if (socket.isConnected()) {
-
+					socket = new Socket("192.168.0.3", 10000);
+					
+					if(socket.isConnected()) {
+												
 						InputStream nis = socket.getInputStream();
 						OutputStream nos = socket.getOutputStream();
 						nscan = new Scanner(nis);
 						nout = new PrintStream(nos);
-
+						
+						nout.println("1,"+nicName);
+						//========================
 						new Thread(new Runnable() {
-
+							
 							@Override
 							public void run() {
-								while (nscan.hasNextLine()) {
+								// TODO Auto-generated method stub
+								while(nscan.hasNextLine()) {
+									//µ•¿Ã≈Õ∏¶ πﬁ¥¬ ∞˜
 									String line = nscan.nextLine();
-									panel.setOutputText(line);
-								}
+									// ¡¢º”¿⁄ µ•¿Ã≈Õ∏¶ πﬁæ“¿ª ∂ß
+									String[] tokens = line.split(",");
+									int type = Integer.parseInt(tokens[0]);
+									
+									switch(type) {
+									case 1:
+										
+										String names = "";
+										for(int i=0; i<tokens.length-1; i++)
+											names += tokens[i+1];
+										
+										panel.setUserNames(names);
+										
+										break;
+									case 2:
+										break;
+									case 3:
+										//"3,hello"
+										panel.setOutputText(tokens[1]);
+										break;
+									}									
+									//  ≈∏¿‘(1) - newlec,dragon,hoho
+									
+									/*
+									"1,newlec,dragon,hoho"
+									*/
+																	
+									
+									// ∞‘¿”/±◊∏≤∆«/ø¿∏Ò µÓ¿« µ•¿Ã≈Õ∏¶ πﬁæ“¿ª ∂ß
+									//  ≈∏¿‘(2) - x1,y1,x2,y2
+									/*
+									"2,x1,y1,x2,y2"
+									*/
+									
+									// √§∆√ µ•¿Ã≈Õ∏¶ πﬁæ“¿ª ∂ß
+									// ≈∏¿‘(3) - msg
+									/*
+									"3,hello"
+									*/
+									
+								}								
 							}
-
-						}).start();
-
+						}).start();						
+						//=======================
 						canvas.setActive();
-						panel.setOutputText("ÏÑúÎ≤ÑÏóê Ïó∞Í≤∞ÎêòÏóàÏäµÎãàÎã§.");
+						panel.setOutputText("º≠πˆø° ø¨∞·µ«æ˙Ω¿¥œ¥Ÿ.");
+						
 					}
-
+					
 				} catch (UnknownHostException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -120,43 +155,50 @@ public class ClientFrame extends JFrame {
 				}
 			}
 		});
-
+		
 		miClose = new JMenuItem("Close");
 		mnServer.add(miClose);
-
-		// ========================================================================
-
+		
+		
+		
 		canvas = new PaintCanvas();
 		add(canvas);
-
+		
 		panel = new ChatPanel();
 		panel.setPreferredSize(new Dimension(250, 0));
 		add(panel, BorderLayout.LINE_END);
-
-//		panel.setChatListener(new ChatListener() {
-//
-//			@Override
-//			public void onSend(String chatMsg) {
-//				System.out.println(chatMsg);
-//			}
-//		}); // Î∞ëÏùò ÎûåÎã§ÏãùÏúºÎ°ú ÎåÄÏ≤¥
-
-		panel.setChatListener((String chatMsg) -> {
-			nout.println(nicName + " : " + chatMsg);
+		panel.setChatListener((String chatMsg)->{
+			nout.println(String.format("%s:%s",nicName, chatMsg));
 		});
-
-//		btnSend = new Button("Send");
-//		add(btnSend, BorderLayout.LINE_END);
-
+		
+		/*
+		 
+		 void f(x, y){
+		     system.out.println("aa");
+		 }
+		 
+		 ()->{return 3;}
+		 ()->3
+		 
+		 (x)->{return x+1;}
+		 (x)->x+1;
+		 x->x+1;
+		 
+		 (s)->{ System.out.println("aaa"); }
+		 
+		 */
+		
+		//btnSend = new Button("Send");
+		//add(btnSend, BorderLayout.LINE_END);
+		
 		addWindowListener(new WindowAdapter() {
-
+			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.exit(0);
+				System.exit(0);				
 			}
-
-		});
-
+			
+		});		
+		
 	}
-
 }

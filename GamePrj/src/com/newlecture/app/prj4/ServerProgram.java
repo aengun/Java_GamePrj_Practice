@@ -9,68 +9,96 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ServerProgram {
-
-	static int outSize = 0; // ì›ë˜ 22ë²ˆì§¸ ì¤„ì— ìˆì—ˆìŒ >> outSize++í•  ë•Œ ì˜¤ë¥˜ë‚˜ì„œ ì „ì—­ë³€ìˆ˜ë¡œ
+	static int outSize = 0;
 
 	public static void main(String[] args) throws IOException {
-
+		
 		boolean isRunning = true;
-
+		
 		Socket[] sockets = new Socket[30];
 		int socketSize = 0;
 		PrintStream[] outs = new PrintStream[30];
-
+		
 		ServerSocket svrSock = new ServerSocket(10000);
-		System.out.println("Server Stated ...");
-
-		while (isRunning) {
-			Socket sock = svrSock.accept(); // blocking ìƒíƒœ
+		System.out.println("Server Started ...");
+		
+		while(isRunning) {
+			
+			Socket sock = svrSock.accept(); // blocking : »ç¿ëÀÚ ¿äÃ»ÀÌ ¾øÀ¸¸é ±â´Ù¸².
 			sockets[socketSize] = sock;
 			socketSize++;
-
-			System.out.println("connected from : " + sock.getRemoteSocketAddress());
-
-			// ===============================================================
+			
+			System.out.println("connected from:"+sock.getRemoteSocketAddress());
+			//==========================
 			new Thread(new Runnable() {
-
+				
 				@Override
 				public void run() {
-
+					// TODO Auto-generated method stub				
 					try {
 						OutputStream nos = sock.getOutputStream();
 						InputStream nis = sock.getInputStream();
-
-						PrintStream nout = new PrintStream(nos, true);
+						
+						PrintStream nout = new PrintStream(nos);
 						Scanner scan = new Scanner(nis);
-
+						
 						outs[outSize] = nout;
 						outSize++;
-
-						String msg;
-
-						do { // ì´ do whileë¬¸ : blockingí•¨ìˆ˜ : ë”ì´ìƒ ì§„í–‰ ë˜ì§€ ëª»í•˜ê²Œ ì“°ë ˆë“œë¥¼ í• ë‹¹í•˜ê³  ìˆëŠ” í•¨ìˆ˜
-							msg = scan.nextLine();
-							// nout.println(msg);
-							for (int i = 0; i < outSize; i++)
+						
+						String line;
+						do {			
+							line = scan.nextLine();
+							
+							String[] tokens = line.split(",");
+							
+							int type=Integer.parseInt(tokens[0]);
+							
+							switch(type) {
+							case 1:
+								// ÇöÀç Á¢¼ÓÀÚ Á¤º¸¸¦ users Äİ·º¼Ç¿¡ ´ã°í
+								String name = tokens[1];
+								users.add(name);
+								
+								// users Äİ·º¼ÇÀÇ ¸ñ·ÏÀ» csv ¹®ÀÚ¿­·Î ¸¸µé¾î¼­
+								
+								// ÇöÀç Á¢¼ÓÁßÀÎ »ç¿ëÀÚ ¸ğµÎ¿¡°Ô »Ñ¸°´Ù.
+								
+								
+								break;
+							case 2:
+								break;
+							case 3:
+								break;
+							}
+							
+							//nout.println(msg);
+							for(int i=0; i<outSize; i++)
 								outs[i].println(msg);
-							System.out.println(sock.getRemoteSocketAddress() + " : " + msg);
-
-						} while (!msg.equals("bye"));
-
-						scan.close();
-						nout.close();
-						nis.close();
+							
+							System.out.println(msg);
+							
+						}while(!msg.equals("bye"));
+											
+						scan.close();		
 						nos.close();
+						nis.close();
 						sock.close();
+						
 					} catch (IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
+					
+					
+					
 				}
-			}).start();
-
+			})
+			.start();
+			
 		}
-		// ===============================================================
+		
+		
+		//==================================
 	}
 
 }
