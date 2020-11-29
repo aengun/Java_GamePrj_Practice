@@ -9,41 +9,43 @@ import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JTextArea;
+
 public class ChatPanel extends Panel {
 	private TextArea textBox;
 	private Label label;
-	
+
 	private Panel inputPanel;
-	private TextArea inputTextBox;
+	private JTextArea inputTextBox;
 	private Button btnSend;
 	private ChatListener chatListener;
-	
+
 	public ChatPanel() {
 		setLayout(new BorderLayout());
 		label = new Label();
 		label.setPreferredSize(new Dimension(0, 50));
 		add(label, BorderLayout.PAGE_START);
-		
+
 		textBox = new TextArea();
 		textBox.setEditable(false);
 		inputPanel = new Panel();
 		inputPanel.setLayout(new BorderLayout());
 		inputPanel.setPreferredSize(new Dimension(0, 100));
-		
+
 		add(textBox);
 		add(inputPanel, BorderLayout.PAGE_END);
-		
-		inputTextBox = new TextArea();
+
+		inputTextBox = new JTextArea();
 		inputPanel.add(inputTextBox);
-		
+
 		btnSend = new Button("send");
-		
-		//btnSend.addMouseListener(l);
+
+		// btnSend.addMouseListener(l);
 		btnSend.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 1. 
+				// 1.
 				String chatMsg = inputTextBox.getText();
 				chatListener.onSend(chatMsg);
 			}
@@ -52,7 +54,7 @@ public class ChatPanel extends Panel {
 	}
 
 	public void setOutputText(String message) {
-		textBox.append(message + "\r\n");		
+		textBox.append(message + "\r\n");
 	}
 
 	public void setChatListener(ChatListener chatListener) {
@@ -61,6 +63,6 @@ public class ChatPanel extends Panel {
 
 	public void setUserNames(String names) {
 		label.setText(names);
-	}	
-	
+	}
+
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class ClientProgram {
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		
+
 		ClientFrame frame = new ClientFrame();
 		frame.setVisible(true);
 

@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class ChatData implements Serializable {
 	private int type;
 	private String msg;
-	
+
 	public ChatData() {
 	}
 
-	public ChatData(int type, String msg) {	
+	public ChatData(int type, String msg) {
 		this.type = type;
 		this.msg = msg;
 	}
@@ -29,6 +29,5 @@ public class ChatData implements Serializable {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	
-	
+
 }

@@ -14,22 +14,22 @@ public class ClientConsoleProgram {
 		Socket sock = new Socket("127.0.0.1", 10000);
 		OutputStream nos = sock.getOutputStream();
 		InputStream nis = sock.getInputStream();
-				
-		PrintStream nout = new PrintStream(nos,true);
+
+		PrintStream nout = new PrintStream(nos, true);
 		Scanner nscan = new Scanner(nis);
 		Scanner scan = new Scanner(System.in);
-		
+
 		String msg;
 		do {
 
 			msg = scan.nextLine();
 			nout.println(msg);
-			
+
 			String echo = nscan.nextLine();
 			System.out.println(echo);
-		}while(!msg.equals("bye"));
-		
-		nout.close();		
+		} while (!msg.equals("bye"));
+
+		nout.close();
 		nos.close();
 		nis.close();
 		sock.close();

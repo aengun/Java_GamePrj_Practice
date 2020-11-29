@@ -21,45 +21,44 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class ClientFrame extends JFrame {
-	
+
 	private Socket socket;
-	
-	// ¸Ş´º ¸¸µé°í¿¹¿ä..
+
+	// ï¿½Ş´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 	private JMenuBar menuBar;
-	
+
 	private JMenu mnFile;
 	private JMenuItem miExit;
 	private JMenuItem miSettings;
-	
+
 	private JMenu mnServer;
 	private JMenuItem miConnect;
 	private JMenuItem miClose;
-	
-	
+
 	private PaintCanvas canvas;
 	private ChatPanel panel;
-	//private Button btnSend;
+	// private Button btnSend;
 
 	protected Scanner nscan;
 
 	protected PrintStream nout;
 
 	private String nicName;
-	
+
 	public ClientFrame() {
 		setSize(800, 500);
-		
+
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		mnFile = new JMenu("Menu");
 		menuBar.add(mnFile);
-		
+
 		mnServer = new JMenu("Server");
 		menuBar.add(mnServer);
-		
+
 		miExit = new JMenuItem("Exit");
-		miExit.addActionListener(new ActionListener() {			
+		miExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -67,85 +66,83 @@ public class ClientFrame extends JFrame {
 		});
 		miSettings = new JMenuItem("Settings");
 		mnFile.add(miSettings);
-		miSettings.addActionListener((e)->{
-			this.nicName = JOptionPane.showInputDialog("´ëÈ­¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä");			
+		miSettings.addActionListener((e) -> {
+			this.nicName = JOptionPane.showInputDialog("ëŒ€í™”ëª…ì„ ì…ë ¥í•˜ì„¸ìš”");
 		});
-		
+
 		miConnect = new JMenuItem("Connect");
 		mnServer.add(miConnect);
 		miConnect.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					socket = new Socket("192.168.0.3", 10000);
-					
-					if(socket.isConnected()) {
-												
+					socket = new Socket("192.168.0.88", 10000);
+
+					if (socket.isConnected()) {
+
 						InputStream nis = socket.getInputStream();
 						OutputStream nos = socket.getOutputStream();
 						nscan = new Scanner(nis);
 						nout = new PrintStream(nos);
-						
-						nout.println("1,"+nicName);
-						//========================
+
+						nout.println("1," + nicName);
+						// ========================
 						new Thread(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
-								while(nscan.hasNextLine()) {
-									//µ¥ÀÌÅÍ¸¦ ¹Ş´Â °÷
+								while (nscan.hasNextLine()) {
+									// ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ş´ï¿½ ï¿½ï¿½
 									String line = nscan.nextLine();
-									// Á¢¼ÓÀÚ µ¥ÀÌÅÍ¸¦ ¹Ş¾ÒÀ» ¶§
+									// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ş¾ï¿½ï¿½ï¿½ ï¿½ï¿½
 									String[] tokens = line.split(",");
 									int type = Integer.parseInt(tokens[0]);
-									
-									switch(type) {
+
+									switch (type) {
 									case 1:
-										
-										String names = "";
-										for(int i=0; i<tokens.length-1; i++)
-											names += tokens[i+1];
-										
+										// "1,newlec,dragon,hoho"
+										String names = line.substring(2);
+
 										panel.setUserNames(names);
-										
+
 										break;
 									case 2:
 										break;
 									case 3:
-										//"3,hello"
-										panel.setOutputText(tokens[1]);
+										// "3,hello"
+										String temp = String.format("[%s] : %s", tokens[1], tokens[2]);
+										panel.setOutputText(temp);
 										break;
-									}									
-									//  Å¸ÀÔ(1) - newlec,dragon,hoho
-									
+									}
+									// Å¸ï¿½ï¿½(1) - newlec,dragon,hoho
+
 									/*
-									"1,newlec,dragon,hoho"
-									*/
-																	
-									
-									// °ÔÀÓ/±×¸²ÆÇ/¿À¸ñ µîÀÇ µ¥ÀÌÅÍ¸¦ ¹Ş¾ÒÀ» ¶§
-									//  Å¸ÀÔ(2) - x1,y1,x2,y2
+									 * "1,newlec,dragon,hoho"
+									 */
+
+									// ï¿½ï¿½ï¿½ï¿½/ï¿½×¸ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ş¾ï¿½ï¿½ï¿½ ï¿½ï¿½
+									// Å¸ï¿½ï¿½(2) - x1,y1,x2,y2
 									/*
-									"2,x1,y1,x2,y2"
-									*/
-									
-									// Ã¤ÆÃ µ¥ÀÌÅÍ¸¦ ¹Ş¾ÒÀ» ¶§
-									// Å¸ÀÔ(3) - msg
+									 * "2,x1,y1,x2,y2"
+									 */
+
+									// Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ş¾ï¿½ï¿½ï¿½ ï¿½ï¿½
+									// Å¸ï¿½ï¿½(3) - msg
 									/*
-									"3,hello"
-									*/
-									
-								}								
+									 * "3,hello"
+									 */
+
+								}
 							}
-						}).start();						
-						//=======================
+						}).start();
+						// =======================
 						canvas.setActive();
-						panel.setOutputText("¼­¹ö¿¡ ¿¬°áµÇ¾ú½À´Ï´Ù.");
-						
+						panel.setOutputText("ì„œë²„ì— ì—°ê²°ë˜ì—ˆìŠµë‹ˆë‹¤.");
+
 					}
-					
+
 				} catch (UnknownHostException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -155,50 +152,43 @@ public class ClientFrame extends JFrame {
 				}
 			}
 		});
-		
+
 		miClose = new JMenuItem("Close");
 		mnServer.add(miClose);
-		
-		
-		
+
 		canvas = new PaintCanvas();
 		add(canvas);
-		
+
 		panel = new ChatPanel();
 		panel.setPreferredSize(new Dimension(250, 0));
 		add(panel, BorderLayout.LINE_END);
-		panel.setChatListener((String chatMsg)->{
-			nout.println(String.format("%s:%s",nicName, chatMsg));
+		panel.setChatListener((String chatMsg) -> {
+			nout.println(String.format("3,%s:%s", nicName, chatMsg));
 		});
-		
+
 		/*
-		 
-		 void f(x, y){
-		     system.out.println("aa");
-		 }
-		 
-		 ()->{return 3;}
-		 ()->3
-		 
-		 (x)->{return x+1;}
-		 (x)->x+1;
-		 x->x+1;
-		 
-		 (s)->{ System.out.println("aaa"); }
-		 
+		 * 
+		 * void f(x, y){ system.out.println("aa"); }
+		 * 
+		 * ()->{return 3;} ()->3
+		 * 
+		 * (x)->{return x+1;} (x)->x+1; x->x+1;
+		 * 
+		 * (s)->{ System.out.println("aaa"); }
+		 * 
 		 */
-		
-		//btnSend = new Button("Send");
-		//add(btnSend, BorderLayout.LINE_END);
-		
+
+		// btnSend = new Button("Send");
+		// add(btnSend, BorderLayout.LINE_END);
+
 		addWindowListener(new WindowAdapter() {
-			
+
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.exit(0);				
+				System.exit(0);
 			}
-			
-		});		
-		
+
+		});
+
 	}
 }
